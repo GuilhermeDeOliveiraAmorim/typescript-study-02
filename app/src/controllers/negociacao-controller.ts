@@ -5,6 +5,7 @@ import { DiasDaSemana } from "../enums/dias-da-semana.js";
 import { NegociacoesDoDia } from "../interfaces/negociacoes-do-dia.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { NegociacoesService } from "../services/negociacoes-service.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 
@@ -19,6 +20,7 @@ export class NegociacaoController {
     private negociacoes = new Negociacoes();
     private negociacoesView = new NegociacoesView("#negociacoesView");
     private mensagemView = new MensagemView("#mensagemView");
+    private negociacoesService = new NegociacoesService();
 
     constructor() {
         this.negociacoesView.update(this.negociacoes);
@@ -33,31 +35,21 @@ export class NegociacaoController {
             this.inputQuantidade.value,
             this.inputValor.value
         );
-
         if (!this.ehDiaUtil(negociacao.data)) {
             this.mensagemView.update(
                 "Apenas negociações em dias úteis são aceitas"
             );
             return;
         }
-
         this.negociacoes.adiciona(negociacao);
+        console.log(negociacao.paraTexto());
+        console.log(this.negociacoes.paraTexto());
         this.limparFormulario();
         this.atualizaView();
     }
 
     public importarDados(): void {
-        fetch('http://localhost:8080/dados')
-            .then(res => res.json())
-            .then((dados: NegociacoesDoDia[]) => {
-                return dados.map(dadoDeHoje => {
-                    return new Negociacao(
-                        new Date(),
-                        dadoDeHoje.vezes,
-                        dadoDeHoje.montante
-                    )
-                })
-            })
+        this.negociacoesService.obterNegociacoesDoDia()
             .then(negociacoesDeHoje => {
                 for (let negociacao of negociacoesDeHoje) {
                     this.negociacoes.adiciona(negociacao);                    
