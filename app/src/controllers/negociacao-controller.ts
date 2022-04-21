@@ -23,6 +23,8 @@ export class NegociacaoController {
         this.negociacoesView.update(this.negociacoes);
     }
     
+    @inspect
+    @logarTempoDeExecucao()
     public adiciona(): void {
         /* Zé, você já viu isso? */
         const negociacao = Negociacao.criaDe(
