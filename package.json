@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app/index.html",
+    "start": "node app/index.js",
     "postinstall": "tsc",
-    "watch-node": "nodemon app/index.html",
+    "watch-node": "nodemon app/index.js",
     "watch-ts": "tsc -w",
     "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
