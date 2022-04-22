@@ -11,6 +11,10 @@
     "watch": "tsc -w",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
+  "engines" : { 
+    "npm" : ">=7.0.0",
+    "node" : ">=16.0.0"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
